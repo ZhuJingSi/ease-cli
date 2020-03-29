@@ -1,0 +1,21 @@
+{
+  "name": "ease-cli",
+  "version": "0.0.1",
+  "description": "业务组件管理 cli",
+  "author": "ZhuJingSi",
+  "bin": {
+    "ease": "./bin/index.js",
+    "ez": "./bin/index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.16.0",
+    "handlebars": "^4.0.11",
+    "inquirer": "^6.0.0",
+    "inquirer-autocomplete-prompt": "^0.12.2",
+    "log-symbols": "^2.2.0",
+    "metalsmith": "^2.3.0",
+    "ora": "^2.1.0"
+  }
+}
