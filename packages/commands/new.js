@@ -53,13 +53,25 @@ const updatePackageJson = (createStdout, name, description, callback = () => {})
   })
 }
 
+// 修改新创建仓库的简介
+const updateDescription = (createStdout, description, callback = () => {}) => {
+  const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${createStdout.id}`
+  const cmdStr = `curl --header 'Authorization: Bearer ${EAZE_CONFIG['access_token']}' \
+    ${url} --request PUT --data "description=${description}" `
+  exec(cmdStr, (err, stdout, stderr) => {
+    if (!err) {
+      callback()
+    }
+  })
+}
+
 const gcomponent = (comName, options) => {
   prompt.newComponent(comName).then(res => {
     const { name, description } = res
-    // fork 的仓库：https://gitlab.dxy.net/ZhuJingSi/toh-component-demo
-    const forkId = 4444
+    // fork 的源仓库地址：https://gitlab.dxy.net/f2e/toh/toh-component-demo
+    const forkId = 4579
     const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${forkId}/fork`
-    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} --request POST --data "name=${name}&path=${name}"`
+    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(EAZE_CONFIG.namespace)}"`
     exec(cmdStr, (err, stdout, stderr) => {
       console.log('\r')
       if (!err) {
@@ -76,7 +88,11 @@ const gcomponent = (comName, options) => {
               addSubtree(name)
             }
           }
-          updatePackageJson(JSON.parse(stdout), name, description, callback)
+          setTimeout(() => {
+            updatePackageJson(JSON.parse(stdout), name, description, () => {
+              updateDescription(JSON.parse(stdout), description, callback)
+            })
+          }, 1000)
         }
       }
     })

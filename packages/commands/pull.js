@@ -12,7 +12,7 @@ const pullSubtree = (name) => {
   
   exec('git remote', (err, stdout, stderr) => {
     if (!stdout.includes(name)) {
-      const ssh_url = `git@${EAZE_CONFIG.domain}:ZhuJingSi/${name}.git`
+      const ssh_url = `git@${EAZE_CONFIG.domain}:${encodeURIComponent(EAZE_CONFIG.namespace)}/${name}.git`
       execSync(`git remote add -f ${name} ${ssh_url}`)
     }
     /**

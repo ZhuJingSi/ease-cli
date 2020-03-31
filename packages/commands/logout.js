@@ -2,11 +2,14 @@
 
 // 各种命令行询问
 const { writeRc } = require('../lib/common')
-const login = require('./login.js')
+// 有颜色的 log
+const log = require('../lib/log')
 
 const logout = () => {
-  writeRc({}, ['username', 'password', 'access_token', 'token_type', 'refresh_token', 'scope', 'created_at'], () => {
-    login()
+  writeRc({}, ['domain', 'namespace', 'username', 'password',
+  'access_token', 'token_type', 'refresh_token', 'scope',
+  'created_at'], () => {
+    log.success('Logout successfully! login again with "ease login"')
   })
 }
 

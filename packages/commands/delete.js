@@ -34,10 +34,9 @@ const dcomponent = (name, options) => {
     }
   }
   if (name && options.remote) {
-    const url = ` https://${EAZE_CONFIG.domain}/api/v4/projects/ZhuJingSi%2F${name}`
+    const url = ` https://${EAZE_CONFIG.domain}/api/v4/projects/${encodeURIComponent(EAZE_CONFIG.namespace)}%2F${name}`
     const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} --request DELETE`
     exec(cmdStr, (err, stdout, stderr) => {
-      // console.log(err, stdout, stderr)
       const message = JSON.parse(stdout).message
       if (message && !message.includes('202')) {
         log.error(JSON.parse(stdout).message)

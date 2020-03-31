@@ -22,7 +22,7 @@ const addSoftLink = (fromPath, tarPath) => {
 const addSubtree = (name) => {
   const addPath = PROJECT_EAZE_CONFIG.componentDir || 'src/components'
 
-  const ssh_url = `git@${EAZE_CONFIG.domain}:ZhuJingSi/${name}.git`
+  const ssh_url = `git@${EAZE_CONFIG.domain}:${EAZE_CONFIG.namespace}/${name}.git`
   exec('git remote', (err, stdout, stderr) => {
     /**
      * 添加子项目远程库

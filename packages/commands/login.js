@@ -12,9 +12,9 @@ const { writeRc } = require('../lib/common')
 const logout = require('./logout.js')
 
 // 获取 token
-const requestToken = (username = '', password = '', callback = () => {}) => {
+const requestToken = (domain, username = '', password = '', callback = () => {}) => {
   const authProps = `grant_type=password&username=${username}&password=${password}`
-  const url = `https://${EAZE_CONFIG.domain}/oauth/token`
+  const url = `https://${EAZE_CONFIG.domain || domain}/oauth/token`
   const cmdStr = `curl --data "${authProps}" --request POST ${url}`
 
   exec(cmdStr, callback)
@@ -31,13 +31,14 @@ const checkToken = (token = '', callback = () => {}) => {
 // 获取用户输入的用户名和密码
 const getLoginInfo = (callback = () => {}) => {
   prompt.login().then(res => {
-    requestToken(res.username, res.password, (err, stdout, stderr) => {
-      if (JSON.parse(stdout).error) {
+    requestToken(res.domain, res.username, res.password, (err, stdout, stderr) => {
+      if (!stdout || JSON.parse(stdout).error) {
         log.error(`Login failed! the information entered may be wrong, please login again with "ease login"`)
       } else {
         log.success('Login successfully!')
         const data = {
           domain: res.domain,
+          namespace: res.namespace,
           username: res.username,
           password: res.password,
           ...JSON.parse(stdout)
@@ -57,12 +58,14 @@ const login = (callback = () => {}) => {
       if (isEffective) {
         callback()
       } else {
+        // token 过期了
+        log.error('Your access token is out of date!')
         logout()
-        getLoginInfo(callback)
+        getLoginInfo()
       }
     })
   } else {
-    getLoginInfo(callback)
+    getLoginInfo()
   }
 }
 

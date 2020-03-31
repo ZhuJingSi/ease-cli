@@ -39,7 +39,8 @@ getGlobalConfig = () => {
     EAZE_CONFIG = config
     return config
   }
-  return {}
+  EAZE_CONFIG = {}
+  return EAZE_CONFIG
 }
 
 // 获取项目 ease 配置
@@ -51,7 +52,8 @@ const getProjectEaseConfig = () => {
     PROJECT_EAZE_CONFIG = easeConfig
     return easeConfig
   }
-  return {}
+  PROJECT_EAZE_CONFIG = {}
+  return PROJECT_EAZE_CONFIG
 }
 
 // 软链接目录或文件

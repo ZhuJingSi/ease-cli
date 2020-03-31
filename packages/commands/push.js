@@ -9,7 +9,7 @@ const log = require('../lib/log')
 
 const pushSubtree = (name) => {
   const addPath = PROJECT_EAZE_CONFIG.componentDir || 'src/components'
-  const ssh_url = `git@${EAZE_CONFIG.domain}:ZhuJingSi/${name}.git`
+  const ssh_url = `git@${EAZE_CONFIG.domain}:${EAZE_CONFIG.namespace}/${name}.git`
   
   exec('git remote', (err, stdout, stderr) => {
     if (!stdout.includes(name)) {
@@ -29,7 +29,7 @@ const pushSubtree = (name) => {
         log.error(stderr)
       } else {
         log.success(`${name} push succeeded`)
-        log.info(`repo url: https://${EAZE_CONFIG.domain}/ZhuJingSi/${name}`)
+        log.info(`repo url: https://${EAZE_CONFIG.domain}/${EAZE_CONFIG.namespace}/${name}`)
         /**
          * 子项目切出起点
          * git subtree split [--rejoin] --prefix=<本地子项目目录> --branch <主项目中作为放置子项目的分支名>

@@ -23,6 +23,11 @@ module.exports = {
       default: 'gitlab.dxy.net'
     }, {
       type: 'input',
+      message: 'gitlab namespace path',
+      name: 'namespace',
+      default: 'f2e/toh'
+    }, {
+      type: 'input',
       message: 'username',
       name: 'username',
       default: execSync('git config user.name', {
