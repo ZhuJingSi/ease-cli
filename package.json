@@ -1,12 +1,13 @@
 {
-  "name": "ease-cli",
+  "name": "@cisy/ease-cli",
   "version": "0.0.1",
+  "private": false,
   "description": "Standard tooling for business components development",
   "license": "MIT",
   "homepage": "https://github.com/ZhuJingSi/ease-cli",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZhuJingSi/ease-cli"
+    "url": "git+https://github.com/ZhuJingSi/ease-cli.git"
   },
   "engines": {
     "node": ">=8"
@@ -19,8 +20,8 @@
   "preferGlobal": true,
   "author": "ZhuJingSi",
   "bin": {
-    "ease": "./bin/index.js",
-    "ez": "./bin/index.js"
+    "ease": "bin/index.js",
+    "ez": "bin/index.js"
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -30,5 +31,12 @@
     "log-symbols": "^2.2.0",
     "ora": "^2.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/ZhuJingSi/ease-cli/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
 }
