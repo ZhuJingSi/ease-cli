@@ -104,8 +104,8 @@ program
   
 program.parse(process.argv)
 
-// let commandName = program.args[0]
-// if (!commandName) {
-//   program.help()
-//   return
-// }
+let commandName = program.args.length
+if (!commandName) {
+  program.help()
+  return
+}

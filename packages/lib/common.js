@@ -13,7 +13,8 @@ const log = require('../lib/log')
 const writeRc = (data = {}, deleteKey = [], callback = () => {}) => {
   let oldData = {}
   if (fs.existsSync(configFile)) {
-    oldData = JSON.parse(fs.readFileSync(configFile, 'utf8'))
+    oldData = fs.readFileSync(configFile, 'utf8') &&
+      JSON.parse(fs.readFileSync(configFile, 'utf8')) || {}
   }
   const newData = {
     ...oldData,
@@ -35,7 +36,8 @@ const writeRc = (data = {}, deleteKey = [], callback = () => {}) => {
 // 获取全局配置
 getGlobalConfig = () => {
   if (fs.existsSync(configFile)) {
-    const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) || {}
+    const config = fs.readFileSync(configFile, 'utf8') &&
+      JSON.parse(fs.readFileSync(configFile, 'utf8')) || {}
     EAZE_CONFIG = config
     return config
   }
