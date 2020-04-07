@@ -16,6 +16,7 @@ const gcomponent = require('../packages/commands/new.js')
 const pushSubtree = require('../packages/commands/push.js')
 const pullSubtree = require('../packages/commands/pull.js')
 const dcomponent = require('../packages/commands/delete.js')
+const install = require('../packages/commands/install.js')
 
 /**
  * ease 的配置文件分两种
@@ -32,7 +33,7 @@ getProjectEaseConfig()
 program
   .version('0.0.1', '-v, --version')
 	.usage('<command> [options]')
-  .description('toH 业务组件管理 cli')
+  .description('Standard tooling for business components development')
 
 /**
  * 当 .command() 带有描述参数时，不能采用 .action(callback) 来处理子命令，否则会出错。
@@ -100,6 +101,14 @@ program
   .option('-r, --remote', 'Also delete remote repository')
   .action((name, options) => {
     login(() => dcomponent(name, options))
+  })
+
+program
+  .command('install')
+  .description('automatically install peerDependencies after npm install, also handles installed components')
+  .alias('i')
+  .action(() => {
+    install()
   })
   
 program.parse(process.argv)

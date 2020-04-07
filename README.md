@@ -18,7 +18,7 @@ npm i @cisy/ease-cli -g
 ## 组件开发形式有两种：
 
 1. 以 subtree 的形式添加组件到业务项目中，结合真实业务场景做调试和开发，期间可跟随项目 git 流程提交代码方便多人同时使用。开发完毕可执行 ez push <name> 将组件最新代码提交到组件源仓库，再进入组件源仓库执行 npm publish 即可上传到 @dxy-toh 丁香园私有 npm 库（已发布的 npm 包目前不支持撤回，请谨慎操作）。
-2. git clone 组件库，在其中执行 npm run doc 可打开组件文档页面，其中可根据 demo 的表现做调试，支持热更新。组件库本身也支持 ez add 其它组件用作联调。发布依然使用 npm publish。
+2. git clone 组件库（记得 npm i 后自己手动装一下 peerDependencies 里的包），在其中执行 npm run doc 可打开组件文档页面，其中可根据 demo 的表现做调试，支持热更新。组件库本身也支持 ez add 其它组件用作联调。发布依然使用 npm publish。
 
 ## 命令
 
@@ -39,6 +39,7 @@ npm i @cisy/ease-cli -g
 #### ez new [name] [--local | -l]
 
 根据提示填写组件名称和描述后将会在 gitlab 上使用模版代码创建一个新组件仓库
+
 **--local | -l** ：在当前项目添加该组件，如果项目 package.json 中没有设置 ease.componentDir，组件添加位置默认 src/components
 
 ### 当前项目添加新组件
@@ -64,6 +65,7 @@ npm i @cisy/ease-cli -g
 #### ez delete | d <name> [--remote | -r]
 
 删除所在项目中的指定组件，删除 subtree 关系
+
 **--remote | -r**：同时删除组件远程仓库，请谨慎使用
 
 ### 修改 ez cli 本地配置文件
@@ -75,6 +77,12 @@ npm i @cisy/ease-cli -g
 #### ez config remove [key1] [key2] … [keyn]
 
 删除指定 key
+
+### 组件库本地安装依赖
+
+#### ez install | i
+
+执行 npm i 之后自动安装 peerDependencies，方便本地调试
 
 ## ease 项目配置
 

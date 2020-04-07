@@ -1,6 +1,6 @@
 {
   "name": "@cisy/ease-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "Standard tooling for business components development",
   "license": "MIT",
@@ -25,9 +25,11 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "cli-table": "^0.3.1",
     "commander": "^2.16.0",
     "inquirer": "^6.0.0",
     "inquirer-autocomplete-prompt": "^0.12.2",
+    "lodash": "^4.17.15",
     "log-symbols": "^2.2.0",
     "ora": "^2.1.0"
   },

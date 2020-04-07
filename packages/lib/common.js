@@ -58,6 +58,15 @@ const getProjectEaseConfig = () => {
   return PROJECT_EAZE_CONFIG
 }
 
+// 获取项目 package.json 配置
+const getProjectPackageJson = (targetPath = '.') => {
+  const packageJsonPath = path.resolve(targetPath, 'package.json')
+  if (fs.existsSync(packageJsonPath)) {
+    return JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  }
+  return {}
+}
+
 // 软链接目录或文件
 const link = (sourcePath, targetPath, cb = () => {}) => {
   exec(`ln -s ${path.resolve(sourcePath)} ${targetPath}`, (err, stdout, stderr) => {
@@ -74,5 +83,6 @@ module.exports = {
   writeRc,
   getGlobalConfig,
   getProjectEaseConfig,
+  getProjectPackageJson,
   link
 }

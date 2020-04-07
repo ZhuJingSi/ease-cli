@@ -59,5 +59,16 @@ module.exports = {
     }]).then(answer => {
       return answer
     })
+  },
+  // 是否
+  confirm: title => {
+    return inquirer.prompt([ { 
+      type: 'confirm', 
+      name: 'confirm', 
+      message: title, 
+      default: true 
+    }]).then(answer => {
+      return answer
+    })
   }
 }

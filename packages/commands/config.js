@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// node 内置模块
 const { writeRc } = require('../lib/common')
 
 const config = (args) => {
