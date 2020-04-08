@@ -13,12 +13,12 @@ npm i @cisy/ease-cli -g
 
 # 组件使用说明
 
-***注意：目前 ez cli 的 add、delete、pull、push 命令都需要在项目根目录执行，不然可能不能正确执行***
+***注意：目前 ez cli 的 add、delete、pull、push、install 命令都需要在项目根目录执行，不然可能不能正确执行***
 
 ## 组件开发形式有两种：
 
 1. 以 subtree 的形式添加组件到业务项目中，结合真实业务场景做调试和开发，期间可跟随项目 git 流程提交代码方便多人同时使用。开发完毕可执行 ez push <name> 将组件最新代码提交到组件源仓库，再进入组件源仓库执行 npm publish 即可上传到 @dxy-toh 丁香园私有 npm 库（已发布的 npm 包目前不支持撤回，请谨慎操作）。
-2. git clone 组件库（记得 npm i 后自己手动装一下 peerDependencies 里的包），在其中执行 npm run doc 可打开组件文档页面，其中可根据 demo 的表现做调试，支持热更新。组件库本身也支持 ez add 其它组件用作联调。发布依然使用 npm publish。
+2. git clone 组件库，执行 ez i（ez i 作为 npm i 的替代，除了安装 dependencies 里的包以外，还会以 --no-save 的方式安装 peerDependencies 里的包），在其中执行 npm run doc 可打开组件文档页面，其中可根据 demo 的表现做调试，支持热更新。组件库本身也支持 ez add 其它组件用作联调。发布依然使用 npm publish。
 
 ## 命令
 
@@ -82,7 +82,7 @@ npm i @cisy/ease-cli -g
 
 #### ez install | i
 
-执行 npm i 之后自动安装 peerDependencies，方便本地调试
+作为 npm i 的替代，除了安装 dependencies 里的包以外，还会以 --no-save 的方式安装 peerDependencies 里的包。同时如果当前项目里拉取了其它组件，也会检查这些组件的依赖在当前项目中是否已安装，没有的话会以 --no-save 的方式安装。
 
 ## ease 项目配置
 

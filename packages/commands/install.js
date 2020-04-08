@@ -88,7 +88,9 @@ const listDiffTable = (parent, child) => {
     tableD.push([res.name, res.range, res.parentRange, `${res.cName}: ${res.path}`])
   })
 
-  console.log(tableD.toString())
+  if (notHaveD.length || notEqualD.length) {
+    console.log(tableD.toString())
+  }
 
   // peerDependencies 差异表格
   const tableP = new Table({
@@ -100,25 +102,29 @@ const listDiffTable = (parent, child) => {
   notEqualP.forEach(res => {
     tableP.push([res.name, res.range, res.parentRange, `${res.cName}: ${res.path}`])
   })
-  
-  console.log(tableP.toString())
 
-  prompt.confirm('Whether to install the above package, note that they will not rewrite your package.json').then(res => {
-    // 确认安装
-    if (res.confirm) {
-      const notHaveD_simple_List = Object.keys(notHaveD_simple)
-        .map(el => `${el}@"${notHaveD_simple[el]}"`)
-      const notHaveP_simple_List = Object.keys(notHaveP_simple)
-        .map(el => `${el}@"${notHaveP_simple[el]}"`)
-      const notEqualD_simple_List = Object.keys(notEqualD_simple)
-        .map(el => `${el}@"${notEqualD_simple[el]}"`)
-      const notEqualP_simple_List = Object.keys(notEqualP_simple)
-        .map(el => `${el}@"${notEqualP_simple[el]}"`)
-      const list  = notHaveD_simple_List.concat(notHaveD_simple_List,
-        notHaveP_simple_List, notEqualD_simple_List, notEqualP_simple_List)
-        execSync(`npm install ${list.join(' ')} --no-save`, { stdio: [0, 1, 2] })
-    }
-  })
+  if (notHaveP.length || notEqualP.length) {
+    console.log(tableP.toString())
+  }
+  
+  if (notHaveD.length || notEqualD.length || notHaveP.length || notEqualP.length) {
+    prompt.confirm('Whether to install the above package, note that they will not rewrite your package.json').then(res => {
+      // 确认安装
+      if (res.confirm) {
+        const notHaveD_simple_List = Object.keys(notHaveD_simple)
+          .map(el => `${el}@"${notHaveD_simple[el]}"`)
+        const notHaveP_simple_List = Object.keys(notHaveP_simple)
+          .map(el => `${el}@"${notHaveP_simple[el]}"`)
+        const notEqualD_simple_List = Object.keys(notEqualD_simple)
+          .map(el => `${el}@"${notEqualD_simple[el]}"`)
+        const notEqualP_simple_List = Object.keys(notEqualP_simple)
+          .map(el => `${el}@"${notEqualP_simple[el]}"`)
+        const list  = notHaveD_simple_List.concat(notHaveD_simple_List,
+          notHaveP_simple_List, notEqualD_simple_List, notEqualP_simple_List)
+          execSync(`npm install ${list.join(' ')} --no-save`, { stdio: [0, 1, 2] })
+      }
+    })
+  }
 }
 
 const install = () => {

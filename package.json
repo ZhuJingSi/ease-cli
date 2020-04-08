@@ -1,6 +1,6 @@
 {
   "name": "@cisy/ease-cli",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "private": false,
   "description": "Standard tooling for business components development",
   "license": "MIT",
