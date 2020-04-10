@@ -34,7 +34,7 @@ npm i @cisy/ease-cli -g
 
 将本地配置文件清空
 
-### 创建新组件
+### 创建新组件或新项目
 
 #### ez new [name] [--local | -l] [--project | -p]
 
@@ -62,7 +62,7 @@ npm i @cisy/ease-cli -g
 
 推送指定组件的本地修改到组件源仓库
 
-### 删除指定组件
+### 删除指定组件或项目
 
 #### ez delete | d <name> [--remote | -r] [--project | -p]
 

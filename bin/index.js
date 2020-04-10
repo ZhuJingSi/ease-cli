@@ -110,7 +110,7 @@ program
   .description('automatically install peerDependencies after npm install, also handles installed components')
   .alias('i')
   .action(() => {
-    install()
+    install(process.argv.slice(3))
   })
   
 program.parse(process.argv)
