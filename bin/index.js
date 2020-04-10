@@ -12,10 +12,10 @@ const config = require('../packages/commands/config.js')
 const login = require('../packages/commands/login.js')
 const logout = require('../packages/commands/logout.js')
 const addSubtree = require('../packages/commands/add.js')
-const gcomponent = require('../packages/commands/new.js')
+const { newComponent, newProject } = require('../packages/commands/new.js')
 const pushSubtree = require('../packages/commands/push.js')
 const pullSubtree = require('../packages/commands/pull.js')
-const dcomponent = require('../packages/commands/delete.js')
+const { deleteComponent, deleterPoject } = require('../packages/commands/delete.js')
 const install = require('../packages/commands/install.js')
 
 /**
@@ -66,11 +66,12 @@ program
   })
 
 program
-  .command('new [component-name]')
-  .description('create a component')
+  .command('new [name]')
+  .description('create a component or project, default for component')
   .option('-l, --local', 'Also create local component dir')
+  .option('-p, --project', 'Create a new project instead of component')
   .action((name, options) => {
-    login(() => gcomponent(name, options))
+    login(() => (options.project ? newProject : newComponent)(name, options))
   })
 
 program
@@ -95,12 +96,13 @@ program
   })
   
 program
-  .command('delete <component-name>')
-  .description('delete a component')
+  .command('delete <name>')
+  .description('delete a component or project, default for component')
   .alias('d')
   .option('-r, --remote', 'Also delete remote repository')
+  .option('-p, --project', 'Delete a project instead of component')
   .action((name, options) => {
-    login(() => dcomponent(name, options))
+    login(() => (options.project ? deleterPoject : deleteComponent)(name, options))
   })
 
 program

@@ -61,7 +61,6 @@ const login = (callback = () => {}) => {
         // token 过期了
         log.error('Your access token is out of date!')
         logout()
-        getLoginInfo()
       }
     })
   } else {

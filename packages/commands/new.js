@@ -65,13 +65,14 @@ const updateDescription = (createStdout, description, callback = () => {}) => {
   })
 }
 
-const gcomponent = (comName, options) => {
+const newComponent = (comName, options) => {
   prompt.newComponent(comName).then(res => {
     const { name, description } = res
     // fork 的源仓库地址：https://gitlab.dxy.net/f2e/toh/toh-component-demo
     const forkId = 4579
     const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${forkId}/fork`
-    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(EAZE_CONFIG.namespace)}"`
+    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} \
+      --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(EAZE_CONFIG.namespace)}"`
     exec(cmdStr, (err, stdout, stderr) => {
       console.log('\r')
       if (!err) {
@@ -98,4 +99,35 @@ const gcomponent = (comName, options) => {
     })
   })
 }
-module.exports = gcomponent
+
+const newProject = (projectName) => {
+  prompt.newProject(projectName).then(res => {
+    const { name, namespace, description } = res
+    // fork 的源仓库地址：https://gitlab.dxy.net/f2e/toh/toh-vue-template
+    const forkId = 4636
+    const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${forkId}/fork`
+    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} \
+      --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(namespace)}"`
+    exec(cmdStr, (err, stdout, stderr) => {
+      console.log('\r')
+      if (!err) {
+        if (JSON.parse(stdout).message) {
+          log.error(`${name} ${JSON.parse(stdout).message.name[0]}`)
+        } else {
+          log.success(`repo of project: ${name}, created successfully!\n`)
+  
+          console.log(chalk.hex('#71bef2').bold(`gitlab url: `), JSON.parse(stdout).web_url)
+          console.log(chalk.hex('#71bef2').bold(`ssh url: `), JSON.parse(stdout).ssh_url_to_repo, '\n')
+
+          setTimeout(() => {
+            updateDescription(JSON.parse(stdout), description)
+          }, 1000)
+        }
+      }
+    })
+  })
+}
+module.exports = {
+  newComponent,
+  newProject
+}

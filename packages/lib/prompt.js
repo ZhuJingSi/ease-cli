@@ -23,7 +23,7 @@ module.exports = {
       default: 'gitlab.dxy.net'
     }, {
       type: 'input',
-      message: 'gitlab namespace path',
+      message: 'gitlab namespace path to store components',
       name: 'namespace',
       default: 'f2e/toh'
     }, {
@@ -56,6 +56,50 @@ module.exports = {
       type: 'input',
       message: 'component description',
       name: 'description'
+    }]).then(answer => {
+      return answer
+    })
+  },
+  // 创建新项目，输入项目信息
+  newProject: (name) => {
+    log.info('Please enter project information')
+    return inquirer.prompt([{
+      type: 'input',
+      message: 'project name',
+      name: 'name',
+      default: name,
+      validate(input) {
+        return !!input || 'Name is required!'
+      }
+    }, {
+      type: 'input',
+      message: 'project namespace path',
+      name: 'namespace',
+      default: 'f2e'
+    }, {
+      type: 'input',
+      message: 'project description',
+      name: 'description'
+    }]).then(answer => {
+      return answer
+    })
+  },
+  // 删除项目
+  deleteProject: (name) => {
+    log.info('Please enter the information of the project to be deleted')
+    return inquirer.prompt([{
+      type: 'input',
+      message: 'project name',
+      name: 'name',
+      default: name,
+      validate(input) {
+        return !!input || 'Name is required!'
+      }
+    }, {
+      type: 'input',
+      message: 'project namespace path',
+      name: 'namespace',
+      default: 'f2e'
     }]).then(answer => {
       return answer
     })

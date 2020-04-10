@@ -7,8 +7,15 @@ const execSync = require('child_process').execSync
 
 // 有颜色的 log
 const log = require('../lib/log')
+// 各种命令行询问
+const prompt = require('../lib/prompt')
 
-const dcomponent = (name, options) => {
+/**
+ * 删除组件
+ * @param {String} name 组件名
+ * @param {*} options '-r, --remote': Also delete remote repository
+ */
+const deleteComponent = (name, options) => {
   const addPath = PROJECT_EAZE_CONFIG.componentDir || 'src/components'
   const cpath = `${addPath}/${name}`
 
@@ -46,4 +53,28 @@ const dcomponent = (name, options) => {
     })
   }
 }
-module.exports = dcomponent
+
+/**
+ * 删除项目
+ * @param {*} projectName 项目名
+ */
+const deleterPoject = (projectName) => {
+  prompt.deleteProject(projectName).then(res => {
+    const { name, namespace } = res
+    const url = ` https://${EAZE_CONFIG.domain}/api/v4/projects/${encodeURIComponent(namespace)}%2F${name}`
+    const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} --request DELETE`
+    exec(cmdStr, (err, stdout, stderr) => {
+      const message = JSON.parse(stdout).message
+      if (message && !message.includes('202')) {
+        log.error(JSON.parse(stdout).message)
+      } else if (message) {
+        log.success(`project ${name} deleted successfully!`)
+      }
+    })
+  })
+}
+
+module.exports = {
+  deleteComponent,
+  deleterPoject
+}

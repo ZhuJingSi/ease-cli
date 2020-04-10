@@ -36,11 +36,13 @@ npm i @cisy/ease-cli -g
 
 ### 创建新组件
 
-#### ez new [name] [--local | -l]
+#### ez new [name] [--local | -l] [--project | -p]
 
 根据提示填写组件名称和描述后将会在 gitlab 上使用模版代码创建一个新组件仓库
 
 **--local | -l** ：在当前项目添加该组件，如果项目 package.json 中没有设置 ease.componentDir，组件添加位置默认 src/components
+
+**--project | -p**：使用 toh vue 模版创建一个新项目
 
 ### 当前项目添加新组件
 
@@ -62,11 +64,13 @@ npm i @cisy/ease-cli -g
 
 ### 删除指定组件
 
-#### ez delete | d <name> [--remote | -r]
+#### ez delete | d <name> [--remote | -r] [--project | -p]
 
 删除所在项目中的指定组件，删除 subtree 关系
 
 **--remote | -r**：同时删除组件远程仓库，请谨慎使用
+
+**--project | -p**：删除指定项目
 
 ### 修改 ez cli 本地配置文件
 
