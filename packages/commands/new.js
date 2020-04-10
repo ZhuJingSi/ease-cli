@@ -27,7 +27,8 @@ const updatePackageJson = (createStdout, name, description, callback = () => {})
         description,
         main: `./dist/${name}.umd.min.js`,
         files: [
-          `dist/${name}.umd.min.js`
+          `dist/${name}.umd.min.js`,
+          `dist/${name}.css`
         ],
         author: EAZE_CONFIG.username,
         repository: {
