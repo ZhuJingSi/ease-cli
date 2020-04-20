@@ -5,6 +5,7 @@ const path = require('path')
 const fs = require('fs')
 const exec = require('child_process').exec
 const execSync = require('child_process').execSync
+const _ = require('lodash/object')
 
 // 有颜色的 log
 const chalk = require('chalk')
@@ -78,7 +79,7 @@ const newComponent = (comName, options) => {
       console.log('\r')
       if (!err) {
         if (JSON.parse(stdout).message) {
-          log.error(`${name} ${JSON.parse(stdout).message.name[0]}`)
+          log.error(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`)
         } else {
           log.success(`repo of component: ${name}, created successfully!\n`)
   
@@ -113,7 +114,7 @@ const newProject = (projectName) => {
       console.log('\r')
       if (!err) {
         if (JSON.parse(stdout).message) {
-          log.error(`${name} ${JSON.parse(stdout).message.name[0]}`)
+          log.error(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`)
         } else {
           log.success(`repo of project: ${name}, created successfully!\n`)
   

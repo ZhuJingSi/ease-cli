@@ -134,7 +134,7 @@ const install = (args) => {
     const peerList = Object.keys(peerDependencies).map(res => `${res}@"${peerDependencies[res]}"`)
     execSync(`npm install ${peerList.join(' ')} --no-save`, { stdio: [0, 1, 2] })
   }
-
+  
   const parentDependencies = {
     dependencies: getProjectPackageJson().dependencies,
     peerDependencies
