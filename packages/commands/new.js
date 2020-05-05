@@ -10,6 +10,10 @@ const _ = require('lodash/object')
 // 有颜色的 log
 const chalk = require('chalk')
 const log = require('../lib/log')
+const ora = require('ora')
+const spinner = ora({
+  spinner: 'runner'
+})
 // 各种命令行询问
 const prompt = require('../lib/prompt')
 
@@ -67,6 +71,18 @@ const updateDescription = (createStdout, description, callback = () => {}) => {
   })
 }
 
+// 删除 fork 关系
+const deleteForkRelationship = (createStdout, callback = () => {}) => {
+  const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${createStdout.id}/fork`
+  const cmdStr = `curl --header 'Authorization: Bearer ${EAZE_CONFIG['access_token']}' \
+    ${url} --request DELETE`
+  exec(cmdStr, (err, stdout, stderr) => {
+    if (!err) {
+      callback()
+    }
+  })
+}
+
 const newComponent = (comName, options) => {
   prompt.newComponent(comName).then(res => {
     const { name, description } = res
@@ -75,17 +91,15 @@ const newComponent = (comName, options) => {
     const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${forkId}/fork`
     const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} \
       --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(EAZE_CONFIG.namespace)}"`
+    
+    console.log('\r')
+    spinner.start('Creating')
+
     exec(cmdStr, (err, stdout, stderr) => {
-      console.log('\r')
       if (!err) {
         if (JSON.parse(stdout).message) {
-          log.error(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`)
+          spinner.fail(chalk.bold.red(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`))
         } else {
-          log.success(`repo of component: ${name}, created successfully!\n`)
-  
-          console.log(chalk.hex('#71bef2').bold(`gitlab url: `), JSON.parse(stdout).web_url)
-          console.log(chalk.hex('#71bef2').bold(`ssh url: `), JSON.parse(stdout).ssh_url_to_repo, '\n')
-  
           const callback = () => {
             if (options.local) {
               addSubtree(name)
@@ -93,9 +107,16 @@ const newComponent = (comName, options) => {
           }
           setTimeout(() => {
             updatePackageJson(JSON.parse(stdout), name, description, () => {
-              updateDescription(JSON.parse(stdout), description, callback)
+              updateDescription(JSON.parse(stdout), description, () => {
+                deleteForkRelationship(JSON.parse(stdout), () => {
+                  spinner.succeed(chalk.bold.green(`repo of component: ${name}, created successfully!\n`))
+                  console.log(chalk.hex('#71bef2').bold(`gitlab url: `), JSON.parse(stdout).web_url)
+                  console.log(chalk.hex('#71bef2').bold(`ssh url: `), JSON.parse(stdout).ssh_url_to_repo, '\n')
+                  callback()
+                })
+              })
             })
-          }, 1000)
+          }, 2000)
         }
       }
     })
@@ -110,19 +131,22 @@ const newProject = (projectName) => {
     const url = `https://${EAZE_CONFIG.domain}/api/v4/projects/${forkId}/fork`
     const cmdStr = `curl --header "Authorization: Bearer ${EAZE_CONFIG['access_token']}" ${url} \
       --request POST --data "name=${name}&path=${name}&namespace=${encodeURIComponent(namespace)}"`
+    console.log('\r')
+    spinner.start('Creating')
+
     exec(cmdStr, (err, stdout, stderr) => {
-      console.log('\r')
       if (!err) {
         if (JSON.parse(stdout).message) {
-          log.error(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`)
+          spinner.fail(chalk.bold.red(`${name} ${_.get(JSON.parse(stdout), 'message.name[0]', JSON.parse(stdout).message)}`))
         } else {
-          log.success(`repo of project: ${name}, created successfully!\n`)
-  
-          console.log(chalk.hex('#71bef2').bold(`gitlab url: `), JSON.parse(stdout).web_url)
-          console.log(chalk.hex('#71bef2').bold(`ssh url: `), JSON.parse(stdout).ssh_url_to_repo, '\n')
-
           setTimeout(() => {
-            updateDescription(JSON.parse(stdout), description)
+            updateDescription(JSON.parse(stdout), description, () => {
+              deleteForkRelationship(JSON.parse(stdout), () => {
+                spinner.succeed(chalk.bold.green(`repo of project: ${name}, created successfully!\n`))
+                console.log(chalk.hex('#71bef2').bold(`gitlab url: `), JSON.parse(stdout).web_url)
+                console.log(chalk.hex('#71bef2').bold(`ssh url: `), JSON.parse(stdout).ssh_url_to_repo, '\n')
+              })
+            })
           }, 1000)
         }
       }
