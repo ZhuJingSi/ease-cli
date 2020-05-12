@@ -6,6 +6,9 @@ const exec = require('child_process').exec
 const execSync = require('child_process').execSync
 
 const { getProjectPackageJson } = require('../lib/common')
+
+// 有颜色的 log
+const log = require('../lib/log')
 // 各种命令行询问
 const prompt = require('../lib/prompt')
 const Table = require('cli-table')
@@ -128,12 +131,16 @@ const listDiffTable = (parent, child) => {
 }
 
 const install = (args) => {
-  execSync(`npm install ${args.join(' ')}`, { stdio: [0, 1, 2] })
   const peerDependencies = getProjectPackageJson().peerDependencies
   if (peerDependencies && Object.keys(peerDependencies).length) {
     const peerList = Object.keys(peerDependencies).map(res => `${res}@"${peerDependencies[res]}"`)
-    execSync(`npm install ${peerList.join(' ')} --no-save`, { stdio: [0, 1, 2] })
+    const command = `npm install ${peerList.join(' ')} --no-save`
+    log.info(command, '\r')
+    execSync(command, { stdio: [0, 1, 2] })
   }
+  const command = `npm install ${args.join(' ')} --no-package-lock`
+  log.info(command, '\r')
+  execSync(command, { stdio: [0, 1, 2] })
   
   const parentDependencies = {
     dependencies: getProjectPackageJson().dependencies,
