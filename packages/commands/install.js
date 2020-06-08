@@ -131,6 +131,7 @@ const listDiffTable = (parent, child) => {
 }
 
 const install = (args) => {
+  execSync(`rm -rf node_modules`)
   const peerDependencies = getProjectPackageJson().peerDependencies
   if (peerDependencies && Object.keys(peerDependencies).length) {
     const peerList = Object.keys(peerDependencies).map(res => `${res}@"${peerDependencies[res]}"`)

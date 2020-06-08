@@ -1,6 +1,6 @@
 {
   "name": "@cisy/ease-cli",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": false,
   "description": "Standard tooling for business components development",
   "license": "MIT",
@@ -31,13 +31,14 @@
     "inquirer-autocomplete-prompt": "^0.12.2",
     "lodash": "^4.17.15",
     "log-symbols": "^2.2.0",
-    "ora": "^2.1.0"
+    "ora": "^2.1.0",
+    "update-notifier": "^4.1.0"
   },
   "devDependencies": {},
   "bugs": {
     "url": "https://github.com/ZhuJingSi/ease-cli/issues"
   },
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }

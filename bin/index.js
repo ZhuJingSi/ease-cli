@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
-const os = require('os')
-const fs = require('fs')
 const program = require('commander')
+
+// 检查更新
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+updateNotifier({ pkg }).notify({ isGlobal: true })
 
 // 有颜色的 log
 const log = require('../packages/lib/log.js')
