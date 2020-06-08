@@ -1,3 +1,9 @@
+# 介绍
+**这是一个前端组件管理 Cli，可通过一系列简单命令串联一个组件从创建到发布的整个流程。**
+* 工具内部调用 gutlab api，暂未支持基于 github 的接口。
+* 工具与组件技术栈无关。
+* 目前该工具在丁香园内部使用，但并非丁香园定制化，稍微改改即可适应任何团队。
+
 # 安装
 ```
 npm i @cisy/ease-cli -g
@@ -48,7 +54,7 @@ npm i @cisy/ease-cli -g
 
 #### ez add <name>
 
-将已存在的组件添加到当前项目，如果项目 package.json 中没有设置 ease.componentDir，组件添加位置默认 src/components
+将已存在的组件添加到当前项目（subtree），如果项目 package.json 中没有设置 ease.componentDir，组件添加位置默认 src/components
 
 ### 拉取组件最新更新
 
